@@ -9,7 +9,7 @@ concurrency: build_${{ github.ref }}
 
 jobs:
   build:
-    uses: rashmigowda95/application/.github/workflows/gradle-build.yaml@master
+    uses: rashmigowda95/test-gradle/.github/workflows/gradle-build.yaml@master
     with:
       service-name: ecommerce-dogfood-service
     secrets: inherit
