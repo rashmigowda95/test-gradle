@@ -1,0 +1,31 @@
+name: build
+#run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  workflow_dispatch:
+
+
+
+concurrency: build_${{ github.ref }}
+
+jobs:
+  build:
+    uses: ECommerce/ecommerce-github-action-workflows/.github/workflows/gradle-build.yaml@main
+    with:
+      service-name: ecommerce-dogfood-service
+    secrets: inherit
+
+  #  sonarqube:
+  #    needs: build
+  #    runs-on: [ deere-ubuntu-latest ]
+  #    steps:
+  #      - name: SonarQube Scan
+  #        uses: sonarsource/sonarqube-scan-action@master
+  #        env:
+  #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+
+
+
+
+

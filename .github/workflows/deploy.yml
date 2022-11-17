@@ -1,0 +1,74 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      image-tag:
+        required: true
+        description: Version of Image to Deploy
+        type: string
+      helm-chart-version:
+        required: true
+        description: Helm Chart Version
+        type: string
+      environment:
+        required: true
+        description: Env value
+        type: string
+jobs:
+  gradle:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+#      - name: Check Version
+#        id: version
+#        if: github.event.workflow_run.head_branch == 'main' && ${{ inputs.image-tag }} == "~/master-v\d+(\.\d+){1,2}\-\d+\-g\w{7,7}-passed"
+#        run: echo "successful  ${{ steps.version.outputs.successful }}"
+
+#       - name: Check Tag
+#         id: check-tag
+#         run: |
+#            if [[ ${{ inputs.image-tag }} =~ ^master-v\d+(\.\d+){1,2}\-\d+\-g\w+-passed ]];
+#            then
+#            echo "rashmi"
+#            fi
+#       - name: Build
+#         if: steps.check-tag.outputs.match == 'true'
+#         run: |
+#           echo "Tag is a match"
+        
+      - uses: actions/github-script@v6
+        id: my-script
+        with:
+         result-encoding: string
+         script: |
+            const reguarExp = new RegExp(/master-v\d+(?:\.\d+){1,2}-\d+-g\w+-passed-${{ inputs.environment }}/);
+            console.log(reguarExp.test("${{ inputs.image-tag }}-${{ inputs.environment }}"))
+      
+      - uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: '${{ inputs.image-tag }}'
+          regex: 'master-v\d+(?:\.\d+){1,2}-\d+-g\w+-passed'
+          flags: gm
+            
+      - name: output    
+        if: ${{ steps.regex-match.outputs.match == '' }}
+        run: echo "hello"
+      
+          
+
+
+
+#      - name: Create Tag
+#        id: create_tag
+#        uses: jaywcjlove/create-tag-action@main
+#        with:
+#          test: '[M|m]master[d]\s+[v|V]\d(\.\d+){0,2}'
+
+
+
