@@ -31,10 +31,4 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./build/libs/*.jar
-          key: gradle-${{ github.run_id }}
-          
-     - name: HTML Preview
-       id: html_preview
-       uses: pavi2410/html-preview-action@v2
-       with:
-        html_file: 'index.html'
+          key: gradle-${{ github.run_id }} 
