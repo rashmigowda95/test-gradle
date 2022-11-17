@@ -6,7 +6,7 @@ on:
         type: string
 jobs:
   gradle:
-    runs-on: [ deere-ubuntu-latest ]
+    runs-on: [ ubuntu-latest ]
 
     steps:
       - name: Checkout codebase
