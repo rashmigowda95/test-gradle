@@ -25,7 +25,7 @@ jobs:
           gradle-version: 7.5
 
       - name: Execute Gradle build
-        run: gradle clean check build --info 
+        run: gradle clean check build --info --debug
 
       - name: Cache jar files
         uses: actions/cache@v3
